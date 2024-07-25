@@ -52,6 +52,18 @@ class BaileysProvider extends ProviderClass<WASocket> {
         timeRelease: 0, //21600000
         writeMyself: 'none',
         experimentalStore: false,
+        experimentalStoreArgs: {
+            messagesTypesAllowed: [
+                'pollCreationMessage',
+                'pollCreationMessageV2',
+                'pollCreationMessageV3',
+                'pollUpdateMessage',
+            ],
+            storeMessages: false,
+            storeChats: false,
+            storeContacts: false,
+            storeLabels: false,
+        },
     }
 
     store?: ReturnType<typeof makeInMemoryStore>
@@ -114,7 +126,10 @@ class BaileysProvider extends ProviderClass<WASocket> {
             if (this.globalVendorArgs.useBaileysStore) {
                 this.store = !this.globalVendorArgs.experimentalStore
                     ? makeInMemoryStore({ logger: loggerBaileys })
-                    : bindStore({ logger: loggerBaileys })
+                    : bindStore({
+                          logger: loggerBaileys,
+                          experimentalStoreArgs: this.globalVendorArgs.experimentalStoreArgs,
+                      })
 
                 if (this.store?.readFromFile) this.store?.readFromFile(`${NAME_DIR_SESSION}/baileys_store.json`)
 

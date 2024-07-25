@@ -8,5 +8,12 @@ export interface BaileyGlobalVendorArgs extends GlobalVendorArgs {
     useBaileysStore: boolean
     timeRelease?: number
     experimentalStore?: boolean
+    experimentalStoreArgs?: {
+        messagesTypesAllowed: string[]
+        storeMessages: boolean
+        storeChats: boolean
+        storeContacts: boolean
+        storeLabels: boolean
+    }
     host?: any
 }
